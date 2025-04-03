@@ -1,0 +1,37 @@
+# 1	4	2022-09-27	2022-09-27
+# 2	3	2022-10-03	2022-10-04
+# 3	2	2022-10-05	2022-10-05
+# 4	1	2022-10-11	2022-10-16
+# 5	3	2022-10-13	2022-10-17 $$$ START_DATE가 10/16 이전이면서, END_DATE가 10.16보다 이후
+# 6	2	2022-10-15	2022-10-15
+# 7	2	2022-10-16	2022-10-27 $$$ 
+
+
+WITH start_max_before_today AS(
+    SELECT
+        CAR_ID, MAX(START_DATE) AS START_DATE
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE START_DATE <= '2022-10-16'
+    GROUP BY CAR_ID
+),
+include_end_date AS(
+    SELECT
+        smbt.CAR_ID, smbt.START_DATE, END_DATE
+    FROM start_max_before_today smbt
+    INNER JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY ccrh
+    ON 
+        ccrh.CAR_ID = smbt.CAR_ID AND 
+        ccrh.START_DATE = smbt.START_DATE
+    
+)
+
+SELECT 
+    CAR_ID,
+    CASE
+        WHEN END_DATE < '2022-10-16' THEN "대여 가능"
+        ELSE "대여중"
+    END AS "AVAILABILITY"
+FROM include_end_date
+ORDER BY CAR_ID DESC
+
+# SELECT * FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY WHERE CAR_ID = 16;
