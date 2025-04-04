@@ -19,9 +19,15 @@ zero_count AS(
     FROM ECOLI_DATA
 )
 
+# SELECT * FROM child_and_parent
+# SELECT * FROM child_exist
+# SELECT * FROM zero_count
+
+
 SELECT
-    z.ID, COALESCE(ce.CHILD_COUNT, 0) AS CHILD_COUNT
+    e.ID, COALESCE(ce.CHILD_COUNT, 0) AS CHILD_COUNT
 FROM child_exist ce
-RIGHT JOIN zero_count z
-ON z.ID = ce.parent_ID
+# RIGHT JOIN zero_count z
+RIGHT JOIN ECOLI_DATA  e
+ON e.ID = ce.parent_ID
 ORDER BY 1
