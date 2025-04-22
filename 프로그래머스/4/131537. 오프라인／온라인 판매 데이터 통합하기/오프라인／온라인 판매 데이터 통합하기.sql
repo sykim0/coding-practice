@@ -19,10 +19,8 @@
 #     판매일을 기준으로 오름차순 정렬
 #     상품 ID를 기준으로 오름차순
 #     유저 ID를 기준으로 오름차순 정렬
-# #1
-# - 온라인 세일과 오프라인 세일을 상품ID와 판매날짜로 join하여 가로로 이어붙이고 on.SALES_AMONUT, off.SALES_AMONUT더하기
-# #2
-# - UNION으로 더해서 날짜, ID별로 더하기 => 더 간단할 듯함.
+# 
+# - UNION으로 더해서 날짜, ID별로 더하기 
 
 SELECT
     DATE_FORMAT(SALES_DATE, "%Y-%m-%d") AS SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT
